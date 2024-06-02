@@ -18,13 +18,15 @@ class Trapezia
 
     public bool IsIsosceles()
     {
-        double a = Math.Sqrt(Math.Pow(x[1] - x[0], 2) + Math.Pow(y[1] - y[0], 2));
-        double b = Math.Sqrt(Math.Pow(x[2] - x[3], 2) + Math.Pow(y[2] - y[3], 2));
         double c = Math.Sqrt(Math.Pow(x[2] - x[1], 2) + Math.Pow(y[2] - y[1], 2));
         double d = Math.Sqrt(Math.Pow(x[3] - x[0], 2) + Math.Pow(y[3] - y[0], 2));
-
-        return (a == b && c != d) || (a != b && c == d);
+    
+        double a = Math.Abs((x[1] - x[0]) * (y[3] - y[0]) - (y[1] - y[0]) * (x[3] - x[0]));
+        double b = Math.Abs((x[2] - x[3]) * (y[0] - y[3]) - (y[2] - y[3]) * (x[0] - x[3]));
+    
+        return a == b && c != d;
     }
+
 
     public double SideLength(int side)
     {
@@ -46,9 +48,14 @@ class Trapezia
     {
         double a = SideLength(0);
         double b = SideLength(2);
-        double h = Math.Abs(y[0] - y[1]);
-        return (a + b) * h / 2;
+        double c = Math.Sqrt(Math.Pow(x[2] - x[1], 2) + Math.Pow(y[2] - y[1], 2));
+        double d = Math.Sqrt(Math.Pow(x[3] - x[0], 2) + Math.Pow(y[3] - y[0], 2));
+    
+        double p = (a + b + c + d) / 2; // Полупериметр
+        double area = ((a + b) / Math.Abs(a - b)) * Math.Sqrt((p - a) * (p - b) * (p - a - c) * (p - a - d));
+        return area;
     }
+
 }
 
 class Program
